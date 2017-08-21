@@ -10,7 +10,7 @@ clean () {
 
 clean;
 
-python EnvironLoader $*;
+python -m EnvironLoader $*;
 
 if [ -f $TMPFILE ]; then
     if [ "$1" = "load" ]; then
