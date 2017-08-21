@@ -5,14 +5,15 @@ import os
 import re
 import sqlite3
 
-from . import BASE_DIR
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 DB_NAME = 'envloader.db'
 DB_PATH = os.path.join(BASE_DIR, DB_NAME)
 
 def create_db():
     """ Create DB """
-    open(DB_PATH).close()
+    open(DB_PATH, 'a').close()
+    print "DB created at {}".format(DB_PATH)
 
 
 def create_tables():
@@ -58,6 +59,10 @@ def search_env_vars(search_str):
 
 @contextmanager
 def _connection():
-    conn = sqlite3.connect(DB_PATH)
-    yield conn
-    conn.close()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        yield conn
+        conn.close()
+    except sqlite3.OperationalError:
+        print "ERROR: DB error, try running `envloader init`"
+        exit(1)

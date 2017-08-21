@@ -1,3 +1,19 @@
 #! /bin/bash
 
-python EnvironLoader comman
+TMPFILE=/tmp/envloaderenv.tmp
+
+clean () {
+    if [ -f $TMPFILE ]; then
+        rm $TMPFILE;
+    fi;
+}
+
+clean;
+
+python EnvironLoader $*;
+
+if [ -f $TMPFILE ]; then
+    if [ "$1" = "load" ]; then
+        source $TMPFILE;
+    fi
+fi

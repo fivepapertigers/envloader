@@ -1,11 +1,11 @@
 """ Module for storing environment variables """
-from . import get_input
+from .cli import get_input
 from .db import search_env_vars
 
-from . import BASE_DIR
+TMP_FILE = "/tmp/envloaderenv.tmp"
 
 
-def main(tmpfilename):
+def main():
     print "\n--------------------------"
     print "Load environment variables"
     print "--------------------------\n"
@@ -25,7 +25,15 @@ def main(tmpfilename):
     if not selected:
         return "\nNo environment variables selected. Exiting...\n"
 
-    BASE_DIR = 'tmpfilename'
+    with open(TMP_FILE, 'w') as tmpfile:
+        print "Executing the following commands: \n"
+        for selection in selected:
+            command = "export {}={}".format(selection['key'], selection['val'])
+            print "    {}".format(command)
+            tmpfile.write(command)
+
+        print "\nExiting."
+
 
 
 def _process_search_results(choices, selected, search_term):

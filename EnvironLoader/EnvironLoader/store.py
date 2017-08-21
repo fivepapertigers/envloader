@@ -1,6 +1,6 @@
 """ Module for storing environment variables """
-from envloader import get_input
-from envloader.db import insert_env_var
+from .cli import get_input
+from .db import insert_env_var
 
 
 def main(key=None, val=None, description=None):
