@@ -5,15 +5,20 @@ import os
 import re
 import sqlite3
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 DB_NAME = 'envloader.db'
-DB_PATH = os.path.join(BASE_DIR, DB_NAME)
+DB_DIR = os.path.expanduser('~/.envloader/')
+DB_PATH = os.path.join(DB_DIR, DB_NAME)
 
 def create_db():
     """ Create DB """
-    open(DB_PATH, 'a').close()
-    print "DB created at {}".format(DB_PATH)
+    if os.path.exists(DB_PATH):
+        print "DB already exists"
+    else:
+        if not os.path.isdir(DB_DIR):
+            os.mkdir(DB_DIR)
+        open(DB_PATH, 'w').close()
+        print "DB created at {}".format(DB_PATH)
 
 
 def create_tables():
